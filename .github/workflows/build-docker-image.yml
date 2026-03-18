@@ -26,7 +26,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.repository }}
+          # 推荐使用 github.actor 作为登录用户名
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Docker Buildx
@@ -39,7 +40,10 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/i65u20260318:latest
+            # 👇 关键修改：使用 toLower() 将用户名转为小写
+            ghcr.io/${{ toLower(github.repository_owner) }}/i65u20260318:latest
+            # 建议同时也加上 commit sha 标签，方便版本追踪
+            ghcr.io/${{ toLower(github.repository_owner) }}/i65u20260318:${{ github.sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.description=HTTP Server

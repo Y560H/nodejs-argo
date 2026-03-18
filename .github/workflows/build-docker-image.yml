@@ -38,9 +38,8 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
+          # ⚠️ 注意：tags 下面不要写带 # 的注释，也不要有多余的空格
           tags: |
-            # 👇 修改点：直接将用户名写为小写 y560h
-            # GitHub 会自动将 ghcr.io/y560h/... 映射到 Y560H 账户
             ghcr.io/y560h/i65u20260318:latest
             ghcr.io/y560h/i65u20260318:${{ github.sha }}
           labels: |
